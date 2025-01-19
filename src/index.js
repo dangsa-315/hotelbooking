@@ -1,5 +1,4 @@
 import express from 'express';
-import Users from './model/user.model.js';
 import sendMail from './utils/Transpoter.js';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -26,44 +25,33 @@ app.post('/confirmation.html', async (req, res) => {
     // Logs incoming request data
     console.log(req.body);
 
-    // Default values
-    isbook = true;
-    amount = 5400;
-    hotelName = "luxury hotel";
+    // Default values if not provided
+    isbook = isbook || true;
+    amount = amount || 5400;
+    hotelName = hotelName || "luxury hotel";
 
-    // Validate fields
+    // Validate fields with more specific error messages
     if ([name, email, age, number, identity, hotelName, amount].some(item => item === undefined || item === '')) {
         return res.status(400).json({ message: "All fields are required." });
     }
 
+    if (isNaN(age)) {
+        return res.status(400).json({ message: "Age must be a valid number." });
+    }
+
     try {
-        // Save user data in the database
-        const user = await Users.create({
-            name,
-            email,
-            hotelName,
-            age,
-            number,
-            identification: identity,
-            isBook: isbook,
-            amount,
-        });
 
-        await user.save();  // Ensure the data is saved
 
-        if (!user) {
-            return res.status(500).json({ message: "Something went wrong while saving your data." });
-        }
 
         // Send the confirmation email
         const isSend = await sendMail(name, email, hotelName, isbook, amount);
-
-        // If email was sent successfully, return the confirmation page
-        if (isSend) {
-            return res.sendFile(path.join(__dirname, 'public', 'confirmation.html'));
-        } else {
+        if (!isSend) {
             return res.status(500).json({ message: "Failed to send confirmation email." });
         }
+
+        // Return confirmation page if everything is successful
+        return res.sendFile(path.join(__dirname, 'public', 'confirmation.html'));
+
     } catch (error) {
         console.error('Error:', error);
         return res.status(500).json({ message: "An error occurred while processing your booking." });
