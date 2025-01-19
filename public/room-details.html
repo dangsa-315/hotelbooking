@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Details - Hotel Booking System</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="room-details-page">
+
+  <header class="room-details-header">
+    <div class="hero-content">
+      <h1>Personal Details</h1>
+      <p>We need the following details to confirm your booking</p>
+    </div>
+  </header>
+
+  <div class="room-details">
+    <div id="room-info">
+      <!-- Room info will be dynamically injected here via JavaScript -->
+    </div>
+
+    <class="form-fields">
+      <h3>
+        <p>(*) marks are mandatory to be filled</p>
+      </h3>
+
+
+      <form action="/confirmation.html" method="post">
+        <h3>your Name*</h3><input name="name" type="text" id="name" placeholder="Please enter your name">
+        <h3>Email*</h3><input type="text" name="email" id="mail" placeholder="Your Email">
+        <h3>Contact Number*</h3><input name="number" type="number" id="number" placeholder="Your Contact Number">
+        <h3>Identification*</h3><input name="identity" type="text" id="identity" placeholder="(Aadhaar/PAN)">
+        <h3>Age</h3><input type="number" name="age" id="age" min="1" placeholder="Age">
+        <button class="">Book</button>
+      </form>
+
+  </div>
+  </div>
+  <div class="room-details">
+
+    <h2>Proceed for Payment</h2>
+    <h3 class="section" id="payment">For payment use the below UPI id! or Scan QR</h3>
+    <h3>molshimkhullak-2@okaxis</h3>
+    <img src="assets/QR.jpg" alt="about" />
+  </div>
+  <button onclick="window.location.href = 'confirmation.html'">Book Room</button>
+  <!--this line will take you to the next page on click-->>
+  <script src="script.js"></script>
+</body>
+
+</html>
